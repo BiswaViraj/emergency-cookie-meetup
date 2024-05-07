@@ -1,12 +1,10 @@
 import { Echo } from "@novu/echo";
 
-import { CookieMap, Gather } from "./integrations";
 import { renderGatherLinkEmail } from "./templates/gather-link-email";
 import { renderInPersonMeetupEmail } from "./templates/in-person-meetup-email";
 import { renderInPersonMeetupPush } from "./templates/in-person-meetup-push";
 import {
   CookieCraver,
-  PAYLOAD_SCHEMA,
   StepEnum,
   WorkflowEnum,
   createTimeSlotsGroup,
@@ -33,6 +31,9 @@ echo.workflow(
       return {
         unit: "hours", // 'seconds' | 'minutes' | 'hours' | 'days' | 'weeks' | 'months'
         amount: 1, // the number of units to digest events for
+        backoff: false,
+        digestKey: "cookie-cravers",
+        type: "regular",
       };
     });
 
@@ -80,8 +81,8 @@ echo.workflow(
      * Get the nearest Cookie Bucks location
      */
     const nearestCookieBucksLocation = getNearestCookieBucksLocation(
-      payload.latitude,
-      payload.longitude
+      payload.latitude as number,
+      payload.longitude as number
     );
 
     /**
@@ -155,6 +156,34 @@ echo.workflow(
     }
   },
   {
-    payloadSchema: PAYLOAD_SCHEMA,
+    payloadSchema: {
+      type: "object",
+      properties: {
+        cookieCravers: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              cookiesId: { type: "string" },
+              meetingPreference: {
+                type: "string",
+                enum: ["in-person", "virtual"],
+                default: "in-person",
+              },
+              preferredTimeSlot: {
+                type: "string",
+                enum: ["morning", "afternoon", "evening"],
+                default: "morning",
+              },
+              firstName: { type: "string" },
+              lastName: { type: "string" },
+            },
+          },
+        },
+        latitude: { type: "number", default: 429.0 },
+        longitude: { type: "number", default: 429.0 },
+      },
+      required: ["cookieCravers", "latitude", "longitude"],
+    },
   }
 );

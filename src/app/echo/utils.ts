@@ -77,33 +77,3 @@ export const getNearestCookieBucksLocation = (
     longitude,
   });
 };
-
-export const PAYLOAD_SCHEMA = {
-  type: "object",
-  properties: {
-    cookieCravers: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          cookiesId: { type: "string" },
-          meetingPreference: {
-            type: "string",
-            enum: ["in-person", "virtual"],
-            default: "in-person",
-          },
-          preferredTimeSlot: {
-            type: "string",
-            enum: ["morning", "afternoon", "evening"],
-            default: "morning",
-          },
-          firstName: { type: "string" },
-          lastName: { type: "string" },
-        },
-      },
-    },
-    latitude: { type: "number", default: 429.0 },
-    longitude: { type: "number", default: 429.0 },
-  },
-  required: ["cookieCravers", "latitude", "longitude"],
-} as const;

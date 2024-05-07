@@ -1,0 +1,31 @@
+{
+  "name": "cookie-meetup",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "author": {
+    "name": "CookieMania"
+  },
+  "dependencies": {
+    "@novu/echo": "latest",
+    "next": "14.1.2",
+    "react": "^18",
+    "react-dom": "^18",
+    "@react-email/components": "0.0.15",
+    "@react-email/tailwind": "^0.0.14",
+    "react-email": "2.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.2",
+    "typescript": "^5"
+  }
+}

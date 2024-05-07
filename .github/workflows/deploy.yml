@@ -1,0 +1,17 @@
+# workflow triggers
+name: Deploy to Novu
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Sync State to Novu
+        uses: novuhq/actions-echo-sync@v0.0.4
+        with:
+          novu-api-key: ${{secrets.NOVU_API_KEY}}
+          echo-url: "https://my-echo-app.vercel.app/api/echo"
